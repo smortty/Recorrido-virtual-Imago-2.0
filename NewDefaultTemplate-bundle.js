@@ -8849,10 +8849,12 @@ var WasdControlsComponent = class extends Component3 {
   update(dt) {
     if (!this._physx)
       return;
-    if (!this.up && !this.down && !this.left && !this.right)
-      return;
     this._physx.getLinearVelocity(_vel);
     const velY = _vel[1];
+    if (!this.up && !this.down && !this.left && !this.right) {
+      this._physx.linearVelocity = [0, velY, 0];
+      return;
+    }
     this.headObject.getRotationWorld(_camRot);
     const cx = _camRot[0], cy = _camRot[1], cz = _camRot[2], cw = _camRot[3];
     const yaw = Math.atan2(2 * (cw * cy + cx * cz), 1 - 2 * (cy * cy + cx * cx));
